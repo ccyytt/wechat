@@ -12,6 +12,7 @@
     "url": "git+https://github.com/ccyytt/wechat.git"
   },
   "dependencies": {
+    "axios": "^0.21.1",
     "crypto": "^1.0.1",
     "koa": "^2.13.0",
     "koa-body": "^4.2.0",
