@@ -7,12 +7,11 @@ var axios = require('axios');
 var config = require('./config')
 var getAccessToken = require('./method').getAccessToken
 var createMenu = require('./method').createMenu
+var getUserInfo = require('./method').getUserInfo
 var app = new Koa()
 var route = router()
 var token = 'polixir'
-getAccessToken().then(res => {
-    createMenu(res.access_token)
-})
+var access_token = null
 route.get('/', async (ctx, next) => {
     var echostr = ctx.query.echostr
     var signature = ctx.query.signature;
@@ -24,6 +23,7 @@ route.get('/', async (ctx, next) => {
 
     if(sha1.digest('hex') === signature) {
         const ak = await getAccessToken()
+        access_token = ak.access_token
         createMenu(ak.access_token)
         ctx.body = echostr
     }
@@ -31,7 +31,8 @@ route.get('/', async (ctx, next) => {
     
 })
 route.post('/', async (ctx, next) => {
-	var xml = ctx.request.body.xml
+    var xml = ctx.request.body.xml
+    await getUserInfo(access_token, xml.FromUserName[0])
 	if(xml.Content[0] === '123123') {
 		ctx.body = `<xml>
 		 <ToUserName><![CDATA[${xml.FromUserName[0]}]]></ToUserName>

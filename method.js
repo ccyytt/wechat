@@ -17,13 +17,19 @@ const createMenu = function (access_token) {
       },
     ],
   };
-  console.log(access_token);
   axios
     .post(
       `https://api.weixin.qq.com/cgi-bin/menu/create?access_token=${access_token}`,
       menu
     )
-    .then((res) => console.log(res));
 };
+const getUserInfo = function(access_token, openid, lang='zh_CN') {
+    return await axios.get('https://api.weixin.qq.com/cgi-bin/user/info', {
+        params: {
+            access_token, openid, lang
+        }
+    })
+}
 exports.getAccessToken = getAccessToken;
 exports.createMenu = createMenu;
+exports.getUserInfo = getUserInfo;
