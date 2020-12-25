@@ -10,6 +10,9 @@ var createMenu = require('./method').createMenu
 var app = new Koa()
 var route = router()
 var token = 'polixir'
+getAccessToken().then(res => {
+    createMenu(res.access_token)
+})
 route.get('/', async (ctx, next) => {
     var echostr = ctx.query.echostr
     var signature = ctx.query.signature;

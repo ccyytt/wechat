@@ -9,17 +9,21 @@ const getAccessToken = async function () {
 };
 const createMenu = function (access_token) {
   const menu = {
-    button: [
+    "button": [
       {
-        type: "click",
-        name: "点我点我",
-        可以: "v001",
+        "type": "click",
+        "name": "点我点我",
+        "key": "v001",
       },
     ],
   };
-  axios.get(" https://api.weixin.qq.com/cgi-bin/menu/create", {
-    params: { access_token },
-  });
+  console.log(access_token);
+  axios
+    .post(
+      `https://api.weixin.qq.com/cgi-bin/menu/create?access_token=${access_token}`,
+      menu
+    )
+    .then((res) => console.log(res));
 };
 exports.getAccessToken = getAccessToken;
 exports.createMenu = createMenu;
